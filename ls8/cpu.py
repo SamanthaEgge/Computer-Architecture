@@ -264,7 +264,14 @@ class CPU:
 
       elif ir == JMP:
         print('JUMP, JUMP, JUMP')
-        pass
+        jump_spot = self.reg[self.ram[self.pc + 1]]
+        print('JUMP PRINTS STARTING NOW')
+        print(self.reg)
+        print(self.ram[self.pc+1])
+        print(self.reg[self.ram[self.pc + 1]])
+        print('JUMP PRINTS STOP')
+        self.pc = jump_spot
+        print('JUMP SELF.PC', self.pc)
       
       elif ir == JEQ:
         print('We jumping if equal')

@@ -67,7 +67,7 @@ IRET = 0b00010011   ## Return from Interrupt
 """ Jump Statements """
 JMP = 0b01010100    ## Jump to address in the register. Set PC to that address
 # Jump to an address in register if the noted Flags (FL) are set to True (1)
-JNE = 0b10000011    ## Jump if Not Equal
+JNE = 0b01010110    ## Jump if Not Equal
 JEQ = 0b01010101    ## Jump if Equal
 JGE = 0b01011010    ## Jump if Greater/Equal
 JGT = 0b01010111    ## Jump if Greater Than
@@ -194,11 +194,13 @@ class CPU:
 
       if ir == LDI:
         print("Loading value from reg")
+        print('LDI SELF.PC', self.pc)
         self.reg[reg_a] = reg_b
         self.pc += 3
 
       elif ir == PRN:
         print("Printing our stuff")
+        print('PRINT SELF.PC', self.pc)
         print(self.reg[reg_a])
         self.pc += 2
 
@@ -249,14 +251,16 @@ class CPU:
         # only need to ref equal, not equal. Should I only check if that's true.
         # doesn't leave room for the other flags tho.
         print('we in computate')
+        print('computate self.pc', self.pc)
         if self.reg[reg_a] == self.reg[reg_b]:
           print('setting equal to true')
           self.fl = 0b00000001
         else:
           print('setting equal to false')
           self.fl = 0b00000000
-        print(self.fl)
+        print('self.fl', self.fl)
         self.pc += 3
+        print('computate end self.pc', self.pc)
 
       elif ir == JMP:
         print('JUMP, JUMP, JUMP')
@@ -269,7 +273,7 @@ class CPU:
         print(bin(self.reg[0]))
         print(bin(self.reg[1]))
         print(bin(self.reg[2]))
-        print(self.pc)
+        print('JEQ SELF.PC', self.pc)
         print(self.ram[self.pc+1])
         print(self.reg[self.ram[self.pc + 1]])
         print('JUMP EQUAL PRINTS STOP')
@@ -277,13 +281,24 @@ class CPU:
           print('equal jump')
           jump_spot = self.reg[self.ram[self.pc + 1]]
           self.pc = jump_spot
+          print('JEQ TRUE SELF.PC', self.pc)
         else:
           print('equal jump failed')
-          self.pc +=2
+          self.pc += 2
+          print('JEQ FALSE self.pc', self.pc)
 
       elif ir == JNE:
         print('we jumping if NOT equal')
-        pass
+        if self.fl == 0b00000000:
+          print('jump equal truthed')
+          print('pc', self.pc)
+          print('reg, reg_a, reg_b', self.reg, self.reg[reg_a], self.reg[reg_b])
+          jump_spot = self.reg[self.ram[self.pc + 1]]
+          print('jump_spot', jump_spot)
+          self.pc = jump_spot
+        else:
+          print('jump not equal failed')
+          self.pc += 2
 
       else:
         # print(f"Don't know what's going on here at: {self.pc}")

@@ -250,8 +250,10 @@ class CPU:
         # doesn't leave room for the other flags tho.
         print('we in computate')
         if self.reg[reg_a] == self.reg[reg_b]:
+          print('setting equal to true')
           self.fl = 0b00000001
         else:
+          print('setting equal to false')
           self.fl = 0b00000000
         print(self.fl)
         self.pc += 3
@@ -262,11 +264,27 @@ class CPU:
       
       elif ir == JEQ:
         print('We jumping if equal')
-        pass
+        print('JUMP EQUAL PRINTS STARTING NOW')
+        print(self.reg)
+        print(bin(self.reg[0]))
+        print(bin(self.reg[1]))
+        print(bin(self.reg[2]))
+        print(self.pc)
+        print(self.ram[self.pc+1])
+        print(self.reg[self.ram[self.pc + 1]])
+        print('JUMP EQUAL PRINTS STOP')
+        if self.fl == 0b00000001:
+          print('equal jump')
+          jump_spot = self.reg[self.ram[self.pc + 1]]
+          self.pc = jump_spot
+        else:
+          print('equal jump failed')
+          self.pc +=2
 
       elif ir == JNE:
         print('we jumping if NOT equal')
         pass
 
       else:
-          print(f"Don't know what's going on here at: {self.pc}")
+        # print(f"Don't know what's going on here at: {self.pc}")
+        pass

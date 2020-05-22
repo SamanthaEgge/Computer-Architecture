@@ -292,7 +292,7 @@ class CPU:
         if self.fl == 0b00000000:
           print('jump equal truthed')
           print('pc', self.pc)
-          print('reg, reg_a, reg_b', self.reg, self.reg[reg_a], self.reg[reg_b])
+          # print('reg, reg_a, reg_b', self.reg, self.reg[reg_a], self.reg[reg_b])
           jump_spot = self.reg[self.ram[self.pc + 1]]
           print('jump_spot', jump_spot)
           self.pc = jump_spot

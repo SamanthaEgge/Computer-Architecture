@@ -249,9 +249,12 @@ class CPU:
         # only need to ref equal, not equal. Should I only check if that's true.
         # doesn't leave room for the other flags tho.
         print('we in computate')
-        if self.reg[reg_a] < self.reg[reg_b]:
-          self.fl = 0b00000100
-        pass
+        if self.reg[reg_a] == self.reg[reg_b]:
+          self.fl = 0b00000001
+        else:
+          self.fl = 0b00000000
+        print(self.fl)
+        self.pc += 3
 
       elif ir == JMP:
         print('JUMP, JUMP, JUMP')
@@ -261,7 +264,7 @@ class CPU:
         print('We jumping if equal')
         pass
 
-      elif ir = JNE:
+      elif ir == JNE:
         print('we jumping if NOT equal')
         pass
 

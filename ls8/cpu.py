@@ -84,7 +84,7 @@ JLT = 0b01011000    ## Jump if Less Than
 # IR = Instruction Register - address of currently running instruction
 # MAR = Memory Address Register - Holds Memory Address we're reading/writing
 # MDR = Memory Data Register - Holds value to write/Value just read
-# FL = Flags (current Flags: E, L, G)
+# FL = Flags `FL` bits: `00000LGE` (Less, Greater, Equal)
 
 
 class CPU:
@@ -98,6 +98,7 @@ class CPU:
     self.usage = 0
     self.sp = 7
     self.fl = 0b00000000
+    # `FL` bits: `00000LGE`
 
   def ram_read(self, MAR):
     # print('we in ram_read')
@@ -202,7 +203,7 @@ class CPU:
         self.pc += 2
 
       elif ir == MUL:
-        print("Multiplying RegA vs RegB", reg_a, reg_b, reg[reg_a], reg[reg_b])
+        print("Multiplying RegA vs RegB", reg_a, reg_b, self.reg[reg_a], self.reg[reg_b])
         print(self.reg[reg_a]*self.reg[reg_b])
         self.pc += 3
 
@@ -241,6 +242,28 @@ class CPU:
         value = self.reg[reg_a] + self.reg[reg_b]
         self.reg[reg_a] = value
         self.pc += 3
+
+      elif ir == CMP:
+        ## This sets our flags based upon Reg A vs Reg B
+        ## How do we have something that's greater AND equal, or less AND equal
+        # only need to ref equal, not equal. Should I only check if that's true.
+        # doesn't leave room for the other flags tho.
+        print('we in computate')
+        if self.reg[reg_a] < self.reg[reg_b]:
+          self.fl = 0b00000100
+        pass
+
+      elif ir == JMP:
+        print('JUMP, JUMP, JUMP')
+        pass
+      
+      elif ir == JEQ:
+        print('We jumping if equal')
+        pass
+
+      elif ir = JNE:
+        print('we jumping if NOT equal')
+        pass
 
       else:
           print(f"Don't know what's going on here at: {self.pc}")
